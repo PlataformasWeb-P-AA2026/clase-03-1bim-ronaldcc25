@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lectura de archivo</title>
+    </head>
+    <body>
+        <h1>LISTA DE INSTITUCIONES</h1>
+
+        <button type="submit" id="obtenerInformacion">
+            Obtener información
+        </button>
+        <ul id="lista-instituciones"></ul>
+
+        <script>
+            fetch("data_instituciones.json").then((data) => {
+                const lista = document.getElementById("lista-instituciones");
+
+                // Asumiendo que data es un arreglo de objetos
+                data.forEach((institucion) => {
+                    const li = document.createElement("li");
+                    // Cambia "nombre" por la propiedad real que tenga tu JSON
+                    li.textContent =
+                        institucion.nombre || JSON.stringify(institucion);
+                    lista.appendChild(li);
+                });
+
+                console.log("Datos cargados con éxito:", data);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lectura de JSON Local</title>
+    </head>
+    <body>
+        <h1>INFORMACIÓN DE INSTITUCIONES</h1>
+
+        <p>
+            Selecciona tu archivo <b>data_instituciones.json</b> para mostrar
+            los datos:
+        </p>
+        <input type="file" id="archivoJson" accept=".json" />
+
+        <hr />
+
+        <div id="contenedor-datos"></div>
+
+        <script>
+            document
+                .getElementById("archivoJson")
+                .addEventListener("change", function (event) {
+                    const archivo = event.target.files[0];
+                    if (!archivo) return;
+
+                    const lector = new FileReader();
+
+                    lector.onload = function (e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            const contenedor =
+                                document.getElementById("contenedor-datos");
+                            contenedor.innerHTML = ""; // Limpiar antes de mostrar
+
+                            data.forEach((inst) => {
+                                // Creamos un bloque para cada institución
+                                const div = document.createElement("div");
+                                div.style.borderBottom = "1px solid #ccc";
+                                div.style.marginBottom = "10px";
+
+                                // Mostramos toda la información relevante usando las llaves de tu JSON
+                                div.innerHTML = `
+                            <p><b>Institución:</b> ${inst["Nombre-Educativa"]}</p>
+                            <ul>
+                                <li><b>AMIE:</b> ${inst.AMIE}</li>
+                                <li><b>Provincia:</b> ${inst.Provincia}</li>
+                                <li><b>Cantón:</b> ${inst.Canton}</li>
+                                <li><b>Sostenimiento:</b> ${inst.Sostenimiento}</li>
+                                <li><b>Nivel:</b> ${inst.Nivel}</li>
+                                <li><b>Estudiantes:</b> ${inst.Numeroestudiantes}</li>
+                                <li><b>Estado:</b> ${inst.Estado}</li>
+                            </ul>
+                        `;
+                                contenedor.appendChild(div);
+                            });
+                        } catch (error) {
+                            alert("Error: El archivo no es un JSON válido");
+                        }
+                    };
+
+                    lector.readAsText(archivo);
+                });
+        </script>
+    </body>
+</html>
+
+<!-- ESTE LO HICE CON IA PORQUE NO ME DEJABA LEER EL ARCHIVO DIRECTAMENTE -->
